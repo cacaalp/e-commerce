@@ -1,0 +1,69 @@
+
+{% extends 'store/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="row mt-2">
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title">Cart Summary</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive small">
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Title</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Update</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in cart %}
+                            {% with product=item.product %}
+                            <tr>
+                                <td>
+                                    <img src="{{ product.image.url }}" style="widht:100px;height:100px">
+                                </td>
+                                <td>
+                                    <a href="{{ product.get_absolute_url }}" class="text-info">{{ product.title }}</a>
+                                </td>
+                                <td>
+                                    $ {{ product.price}}
+                                </td>
+                                <td>
+                                    <select id="select{{product.id}}">
+                                        <option selected>
+                                            {{ item.qty }}
+                                        </option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-outline-warning" value="{{ product.id }}">Update</button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" value="{{ product.id }}">Danger</button>
+                                </td>
+                            </tr>
+                            {% endwith %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="card-title float-end"><strong>Total Amount: </strong>$ {{ cart.get_total }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}
